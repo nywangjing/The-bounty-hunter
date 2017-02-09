@@ -1,0 +1,70 @@
+$img-src: "../images/";
+@function cRem($n) {
+    @return $n/100*1rem;
+}
+
+@mixin wandh($w, $h) {
+    width: cRem($w);
+    height: cRem($h);
+}
+
+@mixin bg($bg) {
+    background:url(#{$img-src}#{$bg}) center 0 no-repeat;
+    background-size: 100% auto;
+}
+
+@mixin whbg($w, $h, $bg) {
+    width: cRem($w);
+    height: cRem($h);
+    background:url(#{$img-src}#{$bg}) center 0 no-repeat;
+    background-size: 100% auto;
+}
+
+%posAuto {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+%dotborder {
+    border-bottom: cRem(1) dotted #afa28d;
+}
+
+%dotbordertop {
+    border-top: cRem(1) dotted #afa28d;
+}
+
+@mixin pos($t, $l) {
+    position: absolute;
+    top: cRem($t);
+    left: cRem($l);
+}
+
+.tips {
+    font-size: cRem(20);
+    line-height: cRem(22);
+    color: #333;
+    width: cRem(460);
+    margin: 0 auto cRem(27);
+}
+
+.red {
+    font-size: cRem(20);
+    color: #eb4c21;
+    text-align: center;
+}
+
+.red_btn {
+    @include wandh(297, 79);
+    @include bg('red-btn.png');
+    font-size: cRem(28);
+    text-align: center;
+    color: #350d03;
+    line-height: cRem(79);
+    text-shadow: cRem(0) cRem(0) cRem(5) #FFD3BA;
+}
+
+

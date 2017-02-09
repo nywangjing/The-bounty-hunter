@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <meta name="author" content="xindy" />
+    <title>火影忍者忍者大师赏金猎人系统</title>
+    <script src="js/size.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body>
+    <div id="vueMain">
+        <!--  头部 -->
+        <div class="top">
+            <div class="logo"></div>
+            <!--  按钮 -->
+            <a href="http://naruto.shengli.com" class="download"></a>
+            <template v-if="islogin" v-cloak>
+                <div class="accountInfo">
+                    <span>亲爱的“<i v-html="myflag"></i>”您好！</span>
+                    <a href="javascript:void(0)" @click="showBindAccount"></a>
+                </div>
+            </template>
+            <template v-else>
+                <a class="login" href="javascript:void(0)" @click="showBindAccount"></a>
+            </template>
+        </div>
+        <!-- 赏金猎人菜单 -->
+        <div class="menubg" v-show="islogin" v-cloak>
+            <h2 class="hunter-title">赏金猎人菜单</h2>
+            <div v-if="mytype === 'A'" class="hunter-menu1 hunter-menu">
+                <p>您尚未成为赏金猎人，也没有加入任何赏金猎人小队哦！</p>
+                <ul class="menu-btn">
+                    <li class="menu-btn1" @click="checkHunter"></li>
+                    <li class="menu-btn2" @click="showJoinHunterId"></li>
+                </ul>
+            </div>
+            <div v-else-if="mytype === 'B'" class="hunter-menu2 hunter-menu">
+                <p>您尚未成为赏金猎人，但您已经加入了“<i v-html="myteamName"></i>”的小队！</p>
+                <ul class="menu-btn">
+                    <li class="menu-btn1" @click="checkHunter"></li>
+                    <li class="menu-btn3" @click="checkQuitHunterTeam"></li>
+                </ul>
+            </div>
+            <div v-else-if="mytype === 'C'" class="hunter-menu3 hunter-menu">
+                <p>您的小队编号是“<i v-html="myteamId"></i>”，您未加入任何其他赏金猎人的小队！复 制您的小队编号，让其他玩家进入此页面输入编号并绑定加入您的小队，您即 可获取赏金哦！
+                </p>
+                <ul class="menu-btn">
+                    <li class="menu-btn4" @click="manageHunterTeam"></li>
+                    <li class="menu-btn2" @click="showJoinHunterId"></li>
+                </ul>
+            </div>
+            <div class="hunter-menu4 hunter-menu" v-else>
+                <p>您的小队编号是“<i v-html="myteamId"></i>”，您已经加入了“<i v-html="myteamName"></i>”的小 队！复制您的小队编号，让其他玩家进入此页面输入编号并绑定加入您的小队， 您即可获取赏金哦！
+                </p>
+                <ul class="menu-btn">
+                    <li class="menu-btn4" @click="manageHunterTeam"></li>
+                    <li class="menu-btn3" @click="checkQuitHunterTeam"></li>
+                </ul>
+            </div>
+        </div>
+        <!-- 赏金商城 -->
+        <div class="mallbg">
+            <h2 class="hunter-title">赏金商城</h2>
+            <p class="update-time">下次商品更新时间:2016.09.31</p>
+            <div class="rewardInfo clear">
+                <span>你拥有赏金：<i class="reward" v-html="myreward"></i></span>
+                <a href="javascript:void(0)" @click="checkMyRecord"></a>
+            </div>
+            <div class="hunter-mall clear">
+                <ul>
+                    <li v-for="item in products">
+                        <div><img v-bind:src="item.imgSrc" alt="">
+                            <p v-html="item.name"></p>
+                        </div>
+                        <p class="dj-reward"><i v-html="item.price"></i>赏金</p>
+                        <a href="javascript:void(0)" class="" v-if="item.num" @click="buyProduct(item.productId,item.name)"></a>
+                        <a href="javascript:void(0)" class="finished" v-else></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 赏金猎人须知 -->
+        <div class="rulebg">
+            <h2 class="hunter-title">赏金猎人须知</h2>
+            <div class="hunter-rule">
+                <ol>
+                    <li>只有在此赏金猎人系统页面成功绑定且角色等级大于30级的忍者才能成为 赏金猎人！首次成为赏金猎人送“赏金×5”；</li>
+                    <li> 系统会为赏金猎人发放一枚代表赏金猎人唯一身份的“小队代号（一串字 符代码，每个赏金猎人不同）”。其他忍者在此页面绑定后，输入“小队 代号”即可成为对应赏金猎人忍者小队中的一员！赏金猎人每招募到1名成 员，奖励“100”的赏金；</li>
+                    <li> 赏金猎人每日打开此页面并绑定账号完成签到可以获得50赏金，赏金猎人 小队中任一成员每日打开此页面并绑定账号进行签到，可以使赏金猎人获 得5赏金。</li>
+                    <li>赏金猎人小队中，任一成员充值将奖励赏金猎人充值金额10%的等额赏金； 若该充值成员也具有赏金猎人身份，将奖励该充值成员充值金额5%的等额 赏金。<i>该赏金需要赏金猎人及充值成员在充值后，下一天凌晨00:00~晚上 23:59之间绑定此页面在“管理我的小队”界面，点击“领取充值赏金”领 取，否则将过期作废！</i> </li>
+                    <li>两名不同忍者不能互相成为对方的赏金猎人！先解除关系，再重新绑定的 赏金猎人及队员，将不再重复获得绑定奖励；</li>
+                    <li> 每个赏金猎人每日获得的赏金上限为5000，超过部分将直接作废。 每个赏 金猎人小队最多仅可容纳10名队员；</li>
+                    <li> 赏金猎人小队中的成员可以选择离开小队，每有1名成员离开小队，离开小 队的成员赏金减少其当前赏金数量的5%（被赏金猎人踢出的不在此列）；</li>
+                    <li> 赏金可以在此页面的赏金商城兑换稀有道具。每种道具每次商品更新只能 兑换1次。赏金商城将不定期更新商品。 </li>
+                    <li>本赏金猎人系统中，所有<i>计算结果如果有小数位，则将小数位直接舍去</i>， 如：0.5赏金被视为0赏金；</li>
+                    <li> 赏金变更记录仅储存当日、昨日2天以内的，过期的将直接删除！</li>
+                    <li> 因游戏服务器关闭原因造成无法绑定，或因活动暂停维护造成页面无法访 问的情况，造成的赏金领取问题，请玩家自己承担。避免损失，请密切关 注活动维护，及游戏公告！ </li>
+                    <li>本系统的最终解释权归火影忍者-忍者大师运营小组所有，如有疑问，请及 时联系！（客服QQ：4007555999）
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <!-- 版权 -->
+        <footer>
+            <dl>
+                <dt><img src="images/cmgelogo.png" alt=""></dt>
+                <dd>
+                    <p>©2002 MASASHI KISHIMOTO/2007 SHIPPUDEN ALL Rights Reserved
+                        <br> Copyright ©2005-2015 CMGE All Rights Reserved
+                        <br> 中手游移动科技有限公司 版权所有 粤ICP备09179912号-3
+                        <br> 联系电话：0755-88351991
+                    </p>
+                </dd>
+            </dl>
+        </footer>
+        <!-- 弹框 -->
+        <div class="layoutbg" v-show="layout.layoutbg" v-cloak>
+            <!--  账号绑定弹框 -->
+            <div class="layout-con layoutbg1" v-show="layout.layoutbg1" v-cloak>
+                <a href="javascript:void(0)" class="close" @click="closeLayout"></a>
+                <div class="layout1 account-bind" v-show="layout.account_bind">
+                    <div class="account-bind-title"></div>
+                    <div class="account-bind-content">
+                        <form id="bind_form">
+                            <div class="accountli">
+                                <label for="">版本:</label>
+                                <div class="select-box select-version"><i class="select-text">中手游IOS</i> <span></span>
+                                    <ul>
+                                        <li data-gameId="5002">IOS正版</li>
+                                        <li data-gameId="2151">应用宝</li>
+                                        <li data-gameId="2123">硬核</li>
+                                        <li data-gameId="2102">混服</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="accountli">
+                                <label for="">区服:</label>
+                                <div class="select-box select-area"><i class="select-text">请选择区服</i><span></span>
+                                    <ul>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="accountli">
+                                <label for="">角色ID:</label>
+                                <input type="text" name="roleId" v-model="myaccountInfo.roleId">
+                            </div>
+                            <a href="javascript:void(0)" class="bind_btn red_btn" @click="bindAccount">确认</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="layout-con layoutbg2" v-show='layout.layoutbg2' v-cloak>
+                <a href="javascript:void(0)" class="close" @click="closeLayout"></a>
+                <!-- 成功成为赏金猎人 -->
+                <div class="layout2 behunter_success" v-show="layout.behunter_success">
+                    <h2 class="behunter_success_title"></h2>
+                    <p class="hunterInfo">您的小队ID是：<i v-html="myteamId"></i></p>
+                    <p class="tips">请妥善保管！分享此编号给其他玩家，让他们进入此 页面输入绑定，您即可开始获得赏金猎人奖励！
+                    </p>
+                    <rule-tips></rule-tips>
+                </div>
+                <!-- 与赏金猎人建立契约 -->
+                <div class="layout2 join_hunter" v-show="layout.join_hunter">
+                    <p class="join_hunter_info">您已经成功与赏金猎人：<i v-html="myteamName"></i></p>
+                    <p class="join_hunter_title"></p>
+                    <p class="join_hunter_tips">10天内，您将无法退出该赏金猎人小队。尽情享受你们的旅程吧！
+                    </p>
+                    <rule-tips></rule-tips>
+                </div>
+                <!-- 个人退出赏金小队 -->
+                <div class="layout2 quit_hunter" v-show="layout.quit_hunter">
+                    <p class="join_hunter_info">您已经成功退出赏金猎人：<i v-html="myteamName"></i></p>
+                    <p class="quit_hunter_title"></p>
+                    <p class="join_hunter_tips quit_hunter_tips">10天内，您将无法再次加入该赏金猎人小队。忘记他吧！
+                    </p>
+                    <rule-tips></rule-tips>
+                </div>
+                <!-- 成功购买道具 -->
+                <div class="layout2 buy_success" v-show="layout.buy_success">
+                    <p class="buy_success_title"></p>
+                    <p class="buy_success_info" v-html="myPname"></p>
+                    <p class="join_hunter_tips quit_hunter_tips">该道具已经发放到游戏内，请及时上线领取！
+                    </p>
+                    <rule-tips></rule-tips>
+                    <server-tips></server-tips>
+                </div>
+                <!--  绑定失败 -->
+                <div class="layout2 bind_fail" v-show="layout.bind_fail">
+                    <h2 class="failTitle">绑定失败！</h2>
+                    <div class="failInfo">
+                        <h3>请确定您的账号是否满足：</h3>
+                        <p>1、服务器正常开启中；
+                            <br> 2、您的区服可正常登录；
+                            <br> 3、您的账号信息无误！
+                        </p>
+                    </div>
+                    <server-tips></server-tips>
+                </div>
+                <!--  成为赏金猎人失败 -->
+                <div class="layout2 behunter_fail" v-show="layout.behunter_fail">
+                    <h2 class="behunter_fail_title"></h2>
+                    <div class="failInfo">
+                        <h3>请确定您的账号是否满足：</h3>
+                        <p>1、处于正常绑定状态；
+                            <br> 2、您自己并非赏金猎人；
+                            <br> 3、您的等级大于等于30。
+                        </p>
+                    </div>
+                    <server-tips></server-tips>
+                </div>
+                <!--  非法操作 -->
+                <div class="layout2 illegal" v-show="layout.illegal">
+                    <h2 class="failTitle">非法操作！</h2>
+                    <div class="failInfo illegal_info">
+                        <h3>请确定您的账号是否满足：</h3>
+                        <p>1、处于正常绑定状态；
+                            <br> 2、有足够的赏金；
+                            <br> 3、商品购买次数不为0！
+                        </p>
+                    </div>
+                    <server-tips></server-tips>
+                </div>
+                <!--  加入失败 -->
+                <div class="layout2 join_fail" v-show="layout.join_fail">
+                    <h2 class="join_fail_title"></h2>
+                    <div class="failInfo join_fail_info">
+                        <h3>赶紧看看您的账号是否满足：</h3>
+                        <p>1、处于正常绑定状态；
+                            <br> 2、对方不在您的小队；
+                            <br> 3、小队编号正确；
+                            <br> 4、对方队伍未满10人；
+                            <br> 5、您最近一次解除与该赏金猎人的绑定已满10天。
+                        </p>
+                    </div>
+                    <server-tips></server-tips>
+                </div>
+                <!--  退出失败 -->
+                <div class="layout2 quit_fail" v-show="layout.quit_fail">
+                    <h2 class="quit_fail_title"></h2>
+                    <div class="failInfo quit_fail_info">
+                        <h3>赶紧看看您的账号是否满足：</h3>
+                        <p>1、处于正常绑定状态；
+                            <br> 2、对方确实与您有绑定关系；
+                            <br> 3、您与对方绑定关系已超过10天。
+                        </p>
+                    </div>
+                    <server-tips></server-tips>
+                </div>
+                <!--  领取失败 -->
+                <div class="layout2 receive_fail" v-show="layout.receive_fail">
+                    <h2 class="receive_fail_title"></h2>
+                    <div class="failInfo receive_fail_info">
+                        <h3>赶紧看看您的账号是否满足：</h3>
+                        <p>1、处于正常绑定状态；
+                            <br> 2、小队中当天有人已充过值；
+                            <br> 3、当天未领取过该批次赏金；
+                            <br> 4、至少有一个小队成员充值等于或超过10元。
+                        </p>
+                    </div>
+                    <server-tips></server-tips>
+                </div>
+            </div>
+            <div class="layout-con layoutbg3" v-show="layout.layoutbg3" v-cloak>
+                <a href="javascript:void(0)" class="close" @click="closeLayout"></a>
+                <!-- 加入赏金小队 -->
+                <div class="layout3 join_hunterId" v-show="layout.join_hunterId">
+                    <p>请输入您要加入的赏金猎人小队编号：</p>
+                    <p>
+                        <input type="text" value="" v-model="joinTeamId">
+                    </p>
+                    <a href="javascript:void(0)" class="join_btn red_btn" @click="checkHunterTeam">确认</a>
+                </div>
+                <!--是否加入赏金小队 -->
+                <div class="layout3 ifjoin" v-show="layout.ifjoin">
+                    <p>确认加入“<i v-html="myteamName"></i>”
+                        <br> 的猎人小队吗？
+                    </p>
+                    <div class="ifjoin-btn">
+                        <a href="javascript:void(0)" class="fl" @click="joinHunterTeam">确认</a>
+                        <a href="javascript:void(0)" class="fr" @click="closeLayout">取消</a>
+                    </div>
+                </div>
+                <!--是否退出赏金小队 -->
+                <div class="layout3 ifcancel" v-show="layout.ifcancel">
+                    <p>确认取消“<i v-html="myteamName"></i>”
+                        <br> 的绑定关系吗？
+                    </p>
+                    <div class="ifjoin-btn">
+                        <a href="javascript:void(0)" class="fl" @click="quitHunterTeam()">确认</a>
+                        <a href="javascript:void(0)" class="fr" @click="closeLayout">取消</a>
+                    </div>
+                </div>
+                <!-- 签到 -->
+                <div class="layout3 signIn" v-show="layout.signIn">
+                    <p class="signIn_title">
+                        亲爱的赏金猎人，今天是：
+                        <br>
+                        <i v-html="todayNow"></i>
+                    </p>
+                    <p class="signIn_tips">签到领取50赏金吧！愿你好心情！</p>
+                    <a href="javascript:void(0)" class="join_btn red_btn" @click="signInNow">确认</a>
+                </div>
+            </div>
+            <div class="layout-con layoutbg4" v-show="layout.layoutbg4" v-cloak>
+                <a href="javascript:void(0)" class="close" @click="closeLayout"></a>
+                <!--  我的小队 -->
+                <div class="layout4 myteam" v-show="layout.myteam">
+                    <div class="myteam_title"></div>
+                    <ul class="tabletitle clear">
+                        <li>角色名</li>
+                        <li>带来利益（赏金）</li>
+                        <li>操作</li>
+                    </ul>
+                    <ul class="tableli clear" v-for="(item,index) in myteam">
+                        <li v-html="item.name"></li>
+                        <li v-html="item.money"></li>
+                        <li><a href="javascript:void(0)" @click="discharge(item.id,item.name,index)">解除关系</a>
+                        </li>
+                    </ul>
+                    <a href="javascript:void(0)" class="join_btn red_btn mt20" @click="receiveBounty">领取充值奖金</a>
+                </div>
+                <!-- 变更记录 -->
+                <div class="layout4 myrecord" v-show="layout.myrecord">
+                    <div class="myrecord_title"></div>
+                    <ul class="tabletitle2 clear">
+                        <li>记录日期</li>
+                        <li>记录内容</li>
+                    </ul>
+                    <div class="recordCon">               
+                        <div class="tableli2">
+                            <dl v-for="item in records">
+                                <dt v-html="item.date">
+                                </dt>
+                                <dd v-html="item.content"></dd>
+                            </dl>
+                             <a href="javascript:void(0)" class="join_btn red_btn mt20" @click="getMore">加载更多</a>
+                        </div>
+                    </div>                   
+                </div>
+            </div>
+        </div>
+        <div class="layout2bg" v-show="layout2.layoutbg" v-cloak>
+            <div class="layout-con layoutbg3" v-show="layout2.layoutbg3" v-cloak>
+                <a href="javascript:void(0)" class="close" @click="closeLayout2"></a>
+                <!--是否退出赏金小队 -->
+                <div class="layout3 ifcancel" v-show="layout2.ifcancel">
+                    <p>确认取消“<i v-html="dischargeName"></i>”
+                        <br> 的绑定关系吗？
+                    </p>
+                    <div class="ifjoin-btn">
+                        <a href="javascript:void(0)" class="fl" @click="quitHunterTeam2(dischargeId)">确认</a>
+                        <a href="javascript:void(0)" class="fr" @click="closeLayout2">取消</a>
+                    </div>
+                </div>
+            </div>
+            <div class="layout-con layoutbg2" v-show="layout2.layoutbg2" v-cloak>
+                <a href="javascript:void(0)" class="close" @click="closeLayout2"></a>
+                <!-- 解除关系 -->
+                <div class="layout2 discharge" v-show="layout2.discharge">
+                    <h2 class="discharge_title"></h2>
+                    <p class="discharge_info">与玩家:<i v-html="dischargeName"></i>的契约！</p>
+                    <p class="discharge_tips">10天内，他将无法再次绑定您。忘记他吧！</p>
+                    <rule-tips></rule-tips>
+                </div>
+                <!--  退出失败 -->
+                <div class="layout2 quit_fail" v-show="layout2.quit_fail">
+                    <h2 class="quit_fail_title"></h2>
+                    <div class="failInfo quit_fail_info">
+                        <h3>赶紧看看您的账号是否满足：</h3>
+                        <p>1、处于正常绑定状态；
+                            <br> 2、对方确实与您有绑定关系；
+                            <br> 3、您与对方绑定关系已超过10天。
+                        </p>
+                    </div>
+                    <server-tips></server-tips>
+                </div>
+                <!-- 成功领取赏金 -->
+                <div class="layout2 get_success" v-show="layout2.get_success">
+                    <h2 class="get_success_title"></h2>
+                    <p class="get_success_info">成功领取了所有小队成员为您带来的赏金！</p>
+                    <p class="get_success_tips">小队成员为您带来的赏金！请在点击主页面的“<i>变更记录</i>”按钮查询最近的赏金变更记录。
+                    </p>
+                    <rule-tips></rule-tips>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" value="{$appId}" id="appId">
+    <input type="hidden" value="{$timestamp}" id="timestamp">
+    <input type="hidden" value="{$nonceStr}" id="nonceStr">
+    <input type="hidden" value="{$signature}" id="signature">
+    <input type="hidden" value="" id="icon">
+    <script src="http://download.shengli.com/jquery/jquery-2.2.3.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-resource.min.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/vueMain.js"></script>
+</body>
+
+</html>

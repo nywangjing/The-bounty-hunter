@@ -1,0 +1,916 @@
+    @import "reset";
+    @import "myfn";
+    [v-cloak] {
+        display: none;
+    }
+    
+    .top {
+        @include wandh(750, 1206);
+        @include bg('topbg.jpg');
+        box-sizing: border-box;
+        padding-top: cRem(30);
+    }
+    
+    .logo {
+        @include wandh(273, 126);
+        @include bg('logo.png');
+        margin-left: cRem(30);
+    }
+    
+    .download,
+    .login {
+        display: block;
+        @include wandh(475, 92);
+        margin: cRem(789) auto 0;
+        background:url(#{$img-src}bind-btn.png) center 0 no-repeat;
+        background-size: cRem(475) cRem(214);
+    }
+    
+    .login {
+        margin: cRem(30) auto 0;
+        background-position: center bottom;
+    }
+    
+    .accountInfo,
+    .rewardInfo {
+        padding: cRem(50) cRem(35) 0;
+        span {
+            background: #530f04;
+            @include wandh(468, 50);
+            font-size: cRem(20);
+            color: #fff;
+            display: inline-block;
+            float: left;
+            padding-left: cRem(32);
+            line-height: cRem(50);
+            box-sizing: border-box;
+            i {
+                color: #f6f437;
+            }
+        }
+        a {
+            @include wandh(189, 50);
+            @include bg('cbind.png');
+            display: inline-block;
+            float: right;
+        }
+    }
+    
+    .rewardInfo {
+        padding-top: cRem(25);
+        padding-bottom: cRem(28);
+        a {
+            @include bg('crecord.png');
+        }
+    }
+    
+    .hunter-title {
+        @include wandh(750, 61);
+        line-height: cRem(61);
+        @include bg('hunter-titlebg.png');
+        text-align: center;
+        font-size: cRem(32);
+        color: #0b0b04;
+    }
+    
+    .menubg {
+        @include wandh(750, 345);
+        @include bg('menubg.jpg');
+    }
+    
+    .hunter-menu {
+        font-size: cRem(20);
+        color: #fff;
+    }
+    
+    .hunter-menu1,
+    .hunter-menu2 {
+        p {
+            height: cRem(156);
+            line-height: cRem(156);
+            text-align: center;
+            i {
+                color: #f6f437
+            }
+        }
+    }
+    
+    .hunter-menu3,
+    .hunter-menu4 {
+        p {
+            line-height: cRem(32);
+            padding: 0 cRem(32);
+            height: cRem(156);
+            padding-top: cRem(30);
+            box-sizing: border-box;
+            i {
+                color: #f6f437
+            }
+        }
+    }
+    
+    .menu-btn {
+        @include wandh(642, 79);
+        margin: 0 auto;
+        li {
+            float: left;
+            @include wandh(294, 79);
+            background:url(#{$img-src}menu-btn.png) center 0 no-repeat;
+            background-size: cRem(297) cRem(466);
+            margin: 0 cRem(12);
+            &.menu-btn2 {
+                background-position: cRem(0) cRem(-129);
+            }
+            &.menu-btn3 {
+                background-position: cRem(0) cRem(-258);
+            }
+            &.menu-btn4 {
+                background-position: cRem(0) bottom;
+            }
+        }
+    }
+    
+    .mallbg {
+        @include wandh(750, 845);
+        @include bg('mallbg.jpg');
+        .update-time {
+            color: #f6f437;
+            font-size: cRem(16);
+            text-align: center;
+            padding-top: cRem(20);
+        }
+    }
+    
+    .hunter-mall {
+        @include wandh(700, 653);
+        overflow: hidden;
+        margin: 0 auto;
+        li {
+            float: left;
+            @include wandh(155, 273);
+            margin: 0 cRem(10) cRem(50);
+            div {
+                @include wandh(155, 195);
+                @include bg('mall-picbg.png');
+                position: relative;
+                img {
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    @include wandh(80, 80);
+                    margin-left: cRem(-40);
+                    margin-top: cRem(-40);
+                }
+                p {
+                    color: #f8db72;
+                    font-size: cRem(16);
+                    text-align: center;
+                    position: absolute;
+                    bottom: cRem(5);
+                    left: 0;
+                    right: 0;
+                }
+            }
+            a {
+                @include wandh(155, 41);
+                background:url(#{$img-src}dj-btn.png) right 0 no-repeat;
+                background-size: cRem(329) cRem(41);
+                display: block;
+                &.finished {
+                    background-position: 0 0;
+                }
+            }
+        }
+    }
+    
+    .dj-reward {
+        height: cRem(38);
+        line-height: cRem(38);
+        text-align: center;
+        color: #fff;
+        font-size: cRem(20);
+        i {
+            color: #f8db72;
+        }
+    }
+    
+    .rulebg {
+        @include wandh(750, 1105);
+        @include bg('rulebg.jpg');
+        font-size: cRem(20);
+        color: #fff;
+        line-height: cRem(32);
+    }
+    
+    .hunter-rule {
+        padding-top: cRem(33);
+        width: cRem(664);
+        margin: 0 auto;
+        i {
+            color: #f8db72
+        }
+        ol {
+            list-style-type: none;
+            counter-reset: sectioncounter;
+            li {
+                position: relative;
+                padding-left: cRem(30);
+            }
+        }
+        ol li:before {
+            position: absolute;
+            top: 0;
+            left: cRem(-10);
+            background: #530f04;
+            border-radius: cRem(15);
+            @include wandh(30, 30);
+            line-height: cRem(30);
+            text-align: center;
+            content: counter(sectioncounter);
+            counter-increment: sectioncounter;
+        }
+    }
+    
+    footer {
+        @include wandh(750, 100);
+        background: #000;
+        overflow: hidden;
+        dl {
+            width: cRem(750);
+            dt,
+            dd {
+                float: left;
+            }
+            dt {
+                @include wandh(126, 65);
+                padding: cRem(18) cRem(33) 0 cRem(48);
+            }
+            dd {
+                padding-top: cRem(15);
+                width: cRem(543);
+                p {
+                    border-left: cRem(1) #313131 solid;
+                    padding-left: cRem(12);
+                    color: #888686;
+                    line-height: cRem(18);
+                    font-size: cRem(14);
+                }
+            }
+        }
+    }
+    /**layout**/
+    
+    .layoutbg,
+    .layout2bg {
+        background: rgba(0, 0, 0, 0.7);
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+    }
+    
+    .layout2bg {
+        z-index: 4;
+    }
+    
+    .layout-con {
+        @extend %posAuto;
+    }
+    
+    a.close {
+        @include wandh(33, 38);
+        @include bg('close.png');
+        display: block;
+        float: right;
+        margin-right: cRem(19);
+        margin-bottom: cRem(6);
+        overflow: hidden;
+    }
+    
+    .layoutbg1 {
+        @include wandh(651, 602);
+        background:url(#{$img-src}layout-bind.png) center cRem(44) no-repeat;
+        background-size: cRem(651) cRem(558);
+    }
+    
+    .layout1 {
+        clear: both;
+        @include wandh(651, 558);
+        box-sizing: border-box;
+    }
+    
+    .layoutbg2 {
+        @include wandh(651, 441);
+        background:url(#{$img-src}layout-bind.png) center cRem(44) no-repeat;
+        background-size: cRem(651) cRem(397);
+    }
+    
+    .layout2 {
+        clear: both;
+        @include wandh(651, 397);
+        box-sizing: border-box;
+    }
+    
+    .layoutbg3 {
+        @include wandh(651, 397);
+        background:url(#{$img-src}layout3bg.png) center cRem(44) no-repeat;
+        background-size: cRem(651) cRem(353);
+    }
+    
+    .layout3 {
+        clear: both;
+        @include wandh(651, 353);
+        box-sizing: border-box;
+    }
+    
+    .layoutbg4 {
+        @include wandh(651, 835);
+        background:url(#{$img-src}layout4bg.png) center cRem(44) no-repeat;
+        background-size: cRem(651) cRem(791);
+    }
+    
+    .layout4 {
+        clear: both;
+        @include wandh(651, 791);
+        box-sizing: border-box;
+    }
+    
+    //绑定账号
+    .account-bind {
+        padding-top: cRem(84);
+    }
+    
+    .account-bind-title {
+        @include wandh(129, 31);
+        @include bg('title-bind.png');
+        margin: 0 auto cRem(42);
+    }
+    
+    .account-bind-content {
+        width: cRem(389);
+        margin: 0 auto cRem(40);
+    }
+    
+    .accountli {
+        height: cRem(50);
+        padding-bottom: cRem(30);
+        clear: both;
+        label {
+            @include wandh(92, 50);
+            padding-right: cRem(16);
+            box-sizing: border-box;
+            text-align: right;
+            color: #333;
+            font-size: cRem(20);
+            line-height: cRem(50);
+            float: left;
+        }
+        .select-box,
+        input {
+            @include wandh(297, 50);
+            line-height: cRem(50);
+            background: #8e7e68;
+            color: #fff;
+            font-size: cRem(20);
+            padding-left: cRem(14);
+            box-sizing: border-box;
+            float: left;
+            border-radius: 0;
+            position: relative;
+            span {
+                @include wandh(0, 0);
+                border-top: cRem(10) solid #fff;
+                border-left: cRem(10) solid transparent;
+                border-right: cRem(10) solid transparent;
+                display: block;
+                position: absolute;
+                right: cRem(10);
+                top: cRem(20);
+            }
+            ul {
+                height: cRem(250);
+                overflow: scroll;
+                position: absolute;
+                top: cRem(50);
+                left: 0;
+                z-index: 5;
+                display: none;
+                li {
+                    @include wandh(297, 50);
+                    line-height: cRem(50);
+                    background: #8e7e68;
+                    color: #fff;
+                    font-size: cRem(20);
+                    padding-left: cRem(14);
+                    box-sizing: border-box;
+                    border-top: cRem(1) solid #B7A48A;
+                }
+            }
+        }
+    }
+    
+    .bind_btn {
+        display: block;
+        margin-left: cRem(90);
+    }
+    
+    .behunter_success,
+    .behunter_fail,
+    .bind_fail,
+    .join_hunter_info,
+    {
+        padding-top: cRem(95);
+    }
+    
+    //成功成为赏金猎人
+    .behunter_success_title {
+        @include wandh(369, 31);
+        @include bg('behunter_success_title.png');
+        margin: 0 auto cRem(27);
+    }
+    
+    .hunterInfo {
+        font-size: cRem(24);
+        color: #333;
+        text-align: center;
+        padding-bottom: cRem(34);
+        width: cRem(490);
+        @extend %dotborder;
+        margin: 0 auto cRem(29);
+        i {
+            color: #eb4c21;
+            font-weight: bold;
+        }
+    }
+    
+    //与赏金猎人建立契约
+    .join_hunter_title {
+        @include wandh(171, 31);
+        @include bg('join_hunter.png');
+        margin: cRem(22) auto cRem(35);
+    }
+    
+    .join_hunter_info {
+        font-size: cRem(24);
+        color: #333;
+        text-align: center;
+        i {
+            color: #eb4c21;
+            font-weight: bold
+        }
+    }
+    
+    .join_hunter_tips {
+        @extend %dotbordertop;
+        width: cRem(490);
+        height: cRem(96);
+        box-sizing: border-box;
+        padding: cRem(29) 0 0;
+        color: #333;
+        margin: 0 auto;
+        font-size: cRem(20);
+        line-height: cRem(25);
+    }
+    
+    //个人退出赏金小队
+    .quit_hunter_title {
+        @include wandh(169, 31);
+        @include bg('quit_hunter.png');
+        margin: cRem(22) auto cRem(35);
+    }
+    
+    .quit_hunter_tips {
+        font-size: cRem(18);
+        text-align: center;
+    }
+    
+    //成功购买道具
+    .buy_success {
+        padding-top: cRem(94);
+    }
+    
+    .buy_success_title {
+        @include wandh(270, 31);
+        @include bg('buy_success.png');
+        margin: 0 auto cRem(23);
+    }
+    
+    .buy_success_info {
+        font-size: cRem(24);
+        text-align: center;
+        color: #eb4c21;
+        font-weight: bold;
+        padding-bottom: cRem(33);
+    }
+    
+    //成功领取赏金
+    .get_success {
+        padding-top: cRem(90);
+    }
+    
+    .get_success_title {
+        @include wandh(97, 31);
+        @include bg('get_success_title.png');
+        margin: 0 auto cRem(23);
+    }
+    
+    .get_success_info {
+        text-align: center;
+        color: #333;
+        font-size: cRem(23);
+        padding-bottom: cRem(38);
+    }
+    
+    .get_success_tips {
+        @include wandh(490, 99);
+        margin: 0 auto;
+        @extend %dotbordertop;
+        padding: cRem(24) cRem(24) 0;
+        box-sizing: border-box;
+        line-height: cRem(23);
+        font-size: cRem(20);
+        i {
+            color: #eb4c21;
+        }
+    }
+    
+    //解除契约
+    .discharge {
+        padding-top: cRem(93);
+    }
+    
+    .discharge_title {
+        @include wandh(228, 31);
+        @include bg('discharge_title.png');
+        margin: 0 auto cRem(25);
+    }
+    
+    .discharge_info {
+        font-size: cRem(24);
+        color: #333;
+        padding-bottom: cRem(38);
+        text-align: center;
+        i {
+            color: #eb4c21;
+            font-weight: bolder;
+        }
+    }
+    
+    .discharge_tips {
+        @extend %dotbordertop;
+        @include wandh(490, 105);
+        box-sizing: border-box;
+        margin: 0 auto;
+        text-align: center;
+        font-size: cRem(20);
+        color: #333;
+        padding-top: cRem(28);
+    }
+    
+    // 绑定失败
+    .failTitle {
+        font-size: cRem(32);
+        color: #333;
+        text-align: center;
+        padding-bottom: cRem(45);
+    }
+    
+    .failInfo {
+        @extend %dotbordertop;
+        @include wandh(490, 170);
+        box-sizing: border-box;
+        padding: cRem(33) 0 0 cRem(100);
+        color: #333;
+        margin: 0 auto;
+        h3 {
+            font-size: cRem(24);
+            padding-bottom: cRem(10);
+            font-weight: normal;
+        }
+        p {
+            font-size: cRem(20);
+            line-height: cRem(22);
+        }
+    }
+    
+    .illegal,
+    .bind_fail {
+        padding-top: cRem(84);
+    }
+    
+    //成为赏金猎人失败
+    .behunter_fail_title {
+        @include wandh(269, 31);
+        @include bg('behunter_fail_title.png');
+        margin: 0 auto cRem(37);
+    }
+    
+    //非法操作
+    .illegal_info {
+        height: cRem(166);
+        padding: cRem(33) 0 0 cRem(100);
+    }
+    
+    //加入失败
+    .join_fail {
+        padding-top: cRem(89);
+    }
+    
+    .join_fail_title {
+        @include wandh(137, 31);
+        @include bg('join_fail.png');
+        margin: 0 auto cRem(26);
+    }
+    
+    .join_fail_info {
+        height: cRem(190);
+        padding: cRem(24) 0 0 cRem(20);
+    }
+    
+    //退出失败
+    .quit_fail {
+        padding-top: cRem(93);
+    }
+    
+    .quit_fail_title {
+        @include wandh(137, 31);
+        @include bg('quit_fail.png');
+        margin: 0 auto cRem(37);
+    }
+    
+    .quit_fail_info {
+        padding: cRem(32) 0 0 cRem(92);
+    }
+    
+    //领取失败
+    .receive_fail {
+        padding-top: cRem(80);
+    }
+    
+    .receive_fail_title {
+        @include wandh(137, 31);
+        @include bg('receive_fail.png');
+        margin: 0 auto cRem(20);
+    }
+    
+    .receive_fail_info {
+        height: cRem(180);
+        padding: cRem(24) 0 0 cRem(46);
+    }
+    
+    //
+    //加入赏金小队
+    .join_hunterId {
+        padding-top: cRem(95);
+        font-size: cRem(24);
+        color: #333;
+        text-align: center;
+        input {
+            @include wandh(434, 50);
+            background: #8e7e68;
+            color: #fff;
+            display: block;
+            margin: cRem(29) auto cRem(38);
+            font-size: cRem(20);
+            text-align: center;
+            line-height: cRem(50);
+            border-radius: 0;
+        }
+    }
+    
+    .join_btn {
+        display: block;
+        margin: 0 auto;
+    }
+    
+    //是否加入赏金小队，是否退出赏金小队
+    .ifjoin,
+    .ifcancel {
+        padding-top: cRem(116);
+        p {
+            line-height: cRem(30);
+            color: #333;
+            font-size: cRem(24);
+            text-align: center;
+            padding-bottom: cRem(50);
+            i {
+                color: #e64e21;
+            }
+        }
+    }
+    
+    .ifjoin-btn {
+        @include wandh(456, 56);
+        margin: 0 auto;
+        a {
+            @include wandh(211, 56);
+            @include bg('red-btn2.png');
+            text-align: center;
+            line-height: cRem(56);
+            color: #350d03;
+            font-size: cRem(28);
+            text-shadow: cRem(0) cRem(0) cRem(5) #FFD3BA;
+        }
+    }
+    
+    //签到
+    .signIn {
+        padding-top: cRem(86);
+    }
+    
+    .signIn_title {
+        font-size: cRem(24);
+        color: #333;
+        text-align: center;
+        padding-bottom: cRem(20);
+        i {
+            color: #e64e21;
+            font-weight: bolder;
+        }
+    }
+    
+    .signIn_tips {
+        @include wandh(490, 66);
+        padding-top: cRem(16);
+        text-align: center;
+        color: #333;
+        margin: 0 auto;
+        font-size: cRem(20);
+        box-sizing: border-box;
+        @extend %dotbordertop;
+    }
+    
+    //我的小队,变更记录
+    .myteam,
+    .myrecord {
+        padding-top: cRem(82);
+    }
+    
+    .myteam_title {
+        @include wandh(129, 31);
+        @include bg('myteam.png');
+        margin: 0 auto cRem(26);
+    }
+    
+    .tabletitle,
+    .tableli {
+        li {
+            &:nth-child(3n+1) {
+                width: cRem(160);
+            }
+            &:nth-child(3n+2) {
+                width: cRem(172);
+            }
+            &:nth-child(3n) {
+                width: cRem(128);
+                border-right: none;
+            }
+        }
+    }
+    
+    .tabletitle,
+    .tabletitle2 {
+        width: cRem(460);
+        margin: 0 auto;
+        li {
+            height: cRem(44);
+            line-height: cRem(44);
+            border-bottom: cRem(1) solid #fff;
+            border-right: cRem(1) solid #fff;
+            box-sizing: border-box;
+            font-size: cRem(20);
+            color: #fff;
+            text-align: center;
+            background: #8e7e68;
+            float: left;
+        }
+    }
+    
+    .tableli {
+        clear: both;
+        width: cRem(460);
+        margin: 0 auto;
+        li {
+            font-size: cRem(18);
+            color: #47453e;
+            background: #c9b598;
+            line-height: cRem(44);
+            height: cRem(44);
+            border-bottom: cRem(1) solid #fff;
+            border-right: cRem(1) solid #fff;
+            box-sizing: border-box;
+            text-align: center;
+            float: left;
+            a {
+                @include wandh(96, 34);
+                @include bg('release.png');
+                display: block;
+                margin: cRem(5) auto 0;
+                color: #fff;
+                font-size: cRem(18);
+                text-align: center;
+                line-height: cRem(34);
+            }
+        }
+    }
+    
+    .tableli {
+        li {
+            @extend .elli
+        }
+    }
+    
+    .myrecord_title {
+        @include wandh(129, 31);
+        @include bg('myrecord.png');
+        margin: 0 auto cRem(26);
+    }
+    
+    .recordCon {
+        height: cRem(560);
+        overflow: scroll;
+    }
+    
+    .tabletitle2 {
+        li {
+            border-bottom: cRem(1) solid #fff;
+            border-right: cRem(1) solid #fff;
+            &:nth-child(2n+1) {
+                width: cRem(160);
+                padding-left: cRem(5);
+            }
+            &:nth-child(2n) {
+                width: cRem(300);
+                padding-left: cRem(5);
+            }
+        }
+    }
+    
+    .tableli2 {
+        width: cRem(460);
+        margin: 0 auto;
+        tr {
+            td {
+                empty-cells: show;
+                font-size: cRem(18);
+                color: #47453e;
+                background: #c9b598;
+                div {
+                    line-height: cRem(44);
+                    border-bottom: cRem(1) solid #fff;
+                    border-right: cRem(1) solid #fff;
+                    width: 100%;
+                    height: 100%;
+                    background: #fff;
+                }
+                box-sizing: border-box;
+                text-align: center;
+                &:nth-child(2n+1) {
+                    width: cRem(160);
+                    text-align: center;
+                }
+                &:nth-child(2n) {
+                    text-align: left;
+                    width: cRem(300);
+                    padding-left: cRem(5);
+                }
+            }
+        }
+        dl {
+            border-bottom: cRem(1) solid #fff;
+            clear: both;
+            background: #c9b598;
+            overflow: hidden;
+        }
+        dt,
+        dd {
+            float: left;
+            border-right: cRem(1) solid #fff;
+            font-size: cRem(18);
+            color: #47453e;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        dt {
+            width: cRem(160);
+            text-align: center;
+            vertical-align: middle;
+            padding-bottom: 9999px;
+            margin-bottom: -9999px;
+            display: inline; 
+            padding-top: cRem(20);       
+        }
+
+        dd {
+            text-align: left;
+            width: cRem(300);
+            padding: cRem(10) cRem(5);
+            line-height: cRem(32);
+        }
+    }
+    
+    .mt20 {
+        margin-top: cRem(20);
+    }
