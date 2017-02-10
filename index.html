@@ -17,10 +17,10 @@
         <div class="top">
             <div class="logo"></div>
             <!--  按钮 -->
-            <a href="http://naruto.shengli.com" class="download"></a>
+            <a href="javascript:void(0)" class="download" @click="downloadGame"></a>
             <template v-if="islogin" v-cloak>
                 <div class="accountInfo">
-                    <span>亲爱的“<i v-html="myflag"></i>”您好！</span>
+                    <span>亲爱的“<i v-html="myteamName"></i>”您好！</span>
                     <a href="javascript:void(0)" @click="showBindAccount"></a>
                 </div>
             </template>
@@ -39,7 +39,7 @@
                 </ul>
             </div>
             <div v-else-if="mytype === 'B'" class="hunter-menu2 hunter-menu">
-                <p>您尚未成为赏金猎人，但您已经加入了“<i v-html="myteamName"></i>”的小队！</p>
+                <p>您尚未成为赏金猎人，但您已经加入了“<i v-html="joinTeamName"></i>”的小队！</p>
                 <ul class="menu-btn">
                     <li class="menu-btn1" @click="checkHunter"></li>
                     <li class="menu-btn3" @click="checkQuitHunterTeam"></li>
@@ -54,7 +54,7 @@
                 </ul>
             </div>
             <div class="hunter-menu4 hunter-menu" v-else>
-                <p>您的小队编号是“<i v-html="myteamId"></i>”，您已经加入了“<i v-html="myteamName"></i>”的小 队！复制您的小队编号，让其他玩家进入此页面输入编号并绑定加入您的小队， 您即可获取赏金哦！
+                <p>您的小队编号是“<i v-html="myteamId"></i>”，您已经加入了“<i v-html="joinTeamName"></i>”的小 队！复制您的小队编号，让其他玩家进入此页面输入编号并绑定加入您的小队， 您即可获取赏金哦！
                 </p>
                 <ul class="menu-btn">
                     <li class="menu-btn4" @click="manageHunterTeam"></li>
@@ -165,7 +165,7 @@
                 </div>
                 <!-- 与赏金猎人建立契约 -->
                 <div class="layout2 join_hunter" v-show="layout.join_hunter">
-                    <p class="join_hunter_info">您已经成功与赏金猎人：<i v-html="myteamName"></i></p>
+                    <p class="join_hunter_info">您已经成功与赏金猎人：<i v-html="joinTeamName"></i></p>
                     <p class="join_hunter_title"></p>
                     <p class="join_hunter_tips">10天内，您将无法退出该赏金猎人小队。尽情享受你们的旅程吧！
                     </p>
@@ -173,7 +173,7 @@
                 </div>
                 <!-- 个人退出赏金小队 -->
                 <div class="layout2 quit_hunter" v-show="layout.quit_hunter">
-                    <p class="join_hunter_info">您已经成功退出赏金猎人：<i v-html="myteamName"></i></p>
+                    <p class="join_hunter_info">您已经成功退出赏金猎人：<i v-html="quitTeamName"></i></p>
                     <p class="quit_hunter_title"></p>
                     <p class="join_hunter_tips quit_hunter_tips">10天内，您将无法再次加入该赏金猎人小队。忘记他吧！
                     </p>
@@ -276,7 +276,7 @@
                 </div>
                 <!--是否加入赏金小队 -->
                 <div class="layout3 ifjoin" v-show="layout.ifjoin">
-                    <p>确认加入“<i v-html="myteamName"></i>”
+                    <p>确认加入“<i v-html="joinTeamName"></i>”
                         <br> 的猎人小队吗？
                     </p>
                     <div class="ifjoin-btn">
@@ -286,7 +286,7 @@
                 </div>
                 <!--是否退出赏金小队 -->
                 <div class="layout3 ifcancel" v-show="layout.ifcancel">
-                    <p>确认取消“<i v-html="myteamName"></i>”
+                    <p>确认取消“<i v-html="joinTeamName"></i>”
                         <br> 的绑定关系吗？
                     </p>
                     <div class="ifjoin-btn">

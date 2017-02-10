@@ -42,49 +42,63 @@ var vm = new Vue({
             get_success: false,
             quit_fail: false
         },
-        mytype: '',//赏金猎人菜单类型
-        islogin: false,//之前是否绑定过
-        ishunter: false,//是否是赏金猎人
-        isSignIn: false,//是否签到过
-        myreward: 0,//我的赏金        
-        products: [],//商品
-        records: [],//变更记录
-        recordsPage: 1,//变更page
-        todayNow: "",//签到页面上的时间
-        myflag: "",//我的小队名称
-        myteamId: "",//我的小队id
-        myteamName: "",//我加入的小队名字
-        joinTeamId: "",//我加入的小队的id
-        myPname: "",//我购买的商品的名字
-        myteam: [],//我的小队
-        dischargeId: "",//解除关系的成员id
-        dischargeName: '',//解除关系的成员名字
-        dischargeIndex: "",//解除关系的成员index
-        myaccountInfo: {//绑定信息
+        mytype: '', //赏金猎人菜单类型
+        islogin: false, //之前是否绑定过
+        ishunter: false, //是否是赏金猎人
+        isSignIn: false, //是否签到过
+        myreward: 0, //我的赏金        
+        products: [], //商品
+        records: [], //变更记录
+        recordsPage: 1, //变更page
+        todayNow: "", //签到页面上的时间
+        myteamName: "", //我的小队名称
+        myteamId: "", //我的小队id
+        joinTeamName: "", //我加入的小队名字
+        quitTeamName: "", //我退出的小队名字
+        joinTeamId: "", //我加入的小队的id
+        myPname: "", //我购买的商品的名字
+        myteam: [], //我的小队
+        dischargeId: "", //解除关系的成员id
+        dischargeName: '', //解除关系的成员名字
+        dischargeIndex: "", //解除关系的成员index
+        myaccountInfo: { //绑定信息
             versionId: 5002,
             areaId: "",
             roleId: ""
         },
-        
+
     },
     mounted: function() {
         //初始化
         var self = this;
         this.$nextTick(function() {
             //请求询问是否绑定过账号
-            this.$http.get('../isbind.json').then(function(response) {
+            this.$http.get('../isbind2.json').then(function(response) {
                 if (response.data.isbind) {
                     self.islogin = response.data.isbind ? response.data.isbind : false;
-                    self.mytype = response.data.mytype ? response.data.mytype : "";
-                    self.myteamName = response.data.myteamName ? response.data.myteamName : "";
+                    // self.mytype = response.data.mytype ? response.data.mytype : "";
+                    self.joinTeamName = response.data.joinTeamName ? response.data.joinTeamName : "";
                     self.myteamId = response.data.myteamId ? response.data.myteamId : "";
-                    self.myflag = response.data.myflag ? response.data.myflag : false;
+                    self.myteamName = response.data.myteamName ? response.data.myteamName : "";
                     self.myreward = response.data.myreward ? response.data.myreward : 0;
-                    //是否是赏金猎人，是否签到过
-                    self.ishunter = response.data.ishunter ? response.data.ishunter : false;
+                    //是否是赏金猎人，是否签到过                
                     self.isSignIn = response.data.isSignIn ? response.data.isSignIn : false;
-                    if ((self.ishunter) && (!self.isSignIn)) {
+                    if ((self.myteamId) && (!self.isSignIn)) {
                         self.showSignIn();
+                    }
+                    if (!self.myteamId) {
+                        //不是赏金猎人 
+                        if (!self.joinTeamName) {
+                            self.mytype = "A";
+                        } else {
+                            self.mytype = "B";
+                        }
+                    } else {
+                        if (!self.joinTeamName) {
+                            self.mytype = "C";
+                        } else {
+                            self.mytype = "D";
+                        }
                     }
                 }
             }, function(response) {});
@@ -99,6 +113,28 @@ var vm = new Vue({
         })
     },
     methods: {
+        downloadGame: function() {
+            this.$http.get('../product.json').then(function(response) {
+                window.location.href = "http://naruto.shengli.com";
+            }, function(response) {});
+        },
+        checkMyType: function() {
+            var self = this;
+            if (!self.myteamId) {
+                //不是赏金猎人 
+                if (!self.joinTeamName) {
+                    self.mytype = "A";
+                } else {
+                    self.mytype = "B";
+                }
+            } else {
+                if (!self.joinTeamName) {
+                    self.mytype = "C";
+                } else {
+                    self.mytype = "D";
+                }
+            }
+        },
         SignInTime: function() {
             var isToday = new Date();
             var str = isToday.getFullYear() + "年" + (isToday.getMonth() + 1) + "月" + isToday.getDate() + "日";
@@ -210,7 +246,7 @@ var vm = new Vue({
         //变更记录页面
         showMyRecord: function() {
             this.showLayoutbg4();
-            this.layout.myrecord = true;            
+            this.layout.myrecord = true;
         },
         //成功成为赏金猎人
         showBehunterSuccess: function() {
@@ -270,12 +306,14 @@ var vm = new Vue({
                 return false;
             }
             if (flag) {
-                this.$http.post('../isbind.json', this.myaccountInfo).then(function(response) {
+                this.$http.get('../isbind3.json', this.myaccountInfo).then(function(response) {
                     if (response.data.isbind) {
                         this.islogin = response.data.isbind;
-                        this.mytype = response.data.mytype;
-                        this.myflag = response.data.myflag;
+                        this.myteamName = response.data.myteamName;
+                        this.myteamId = response.data.myteamId ? response.data.myteamId : "";
+                        this.joinTeamName = response.data.joinTeamName ? response.data.joinTeamName : "";
                         this.myreward = response.data.myreward;
+                        this.checkMyType();
                         this.closeLayout();
                     } else {
                         this.showBindFail();
@@ -325,6 +363,7 @@ var vm = new Vue({
                 if (response.data.status) {
                     this.myreward = response.data.myreward;
                     this.myteamId = response.data.myteamId;
+                    this.checkMyType();
                     vm.showBehunterSuccess();
                 } else {
                     vm.showBehunterFail();
@@ -336,7 +375,7 @@ var vm = new Vue({
             //获取小队名称         
             this.$http.get('../ishunter.json', { TeamId: this.joinTeamId }).then(function(response) {
                 if (response.data.status) {
-                    this.myteamName = response.data.myteamName;
+                    this.joinTeamName = response.data.joinTeamName;
                     vm.showIfJoin();
                 }
             }, function(response) {});
@@ -347,6 +386,7 @@ var vm = new Vue({
             this.$http.get('../ishunter.json', { TeamId: this.joinTeamId }).then(function(response) {
                 if (response.data.status) {
                     vm.showJoinSuccess();
+                    this.checkMyType();
                 } else {
                     vm.showJoinFail();
                 }
@@ -358,10 +398,13 @@ var vm = new Vue({
         },
         //退出猎人小队
         quitHunterTeam: function(id) {
-            //个人退出小队
-            this.$http.get('../ishunter.json', { myteamId: this.myteamId }).then(function(response) {
+            this.$http.get('../ishunter.json').then(function(response) {
                 if (response.data.status) {
                     vm.showQuitSuccess();
+                    this.myreward = response.data.myreward;
+                    this.quitTeamName = this.joinTeamName;
+                    this.joinTeamName = "";
+                    this.checkMyType();
                 } else {
                     vm.showQuitFail();
                 }
@@ -416,7 +459,8 @@ var vm = new Vue({
     }
 })
 $(function() {
-    util.share({ title: "", contents: "", link: "", icon: "" });
+    var icon="http://naruto.shengli.com"+$("#icon").val();
+    util.share({ title: "", contents: "", link: "http://naruto.shengli.com/tgy", icon:icon });
     //select
     $(".select-box").click(function() {
         $(this).find("ul").show();
@@ -453,8 +497,4 @@ $(function() {
         vm.myaccountInfo.versionId = num;
         vm.myaccountInfo.areaId = "";
     });
-
-    // $("body").height($(window).height()).css({
-    //     "overflow-y": "hidden"
-    // });
 })
